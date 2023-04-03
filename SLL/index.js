@@ -47,7 +47,9 @@ class SinglyLinkedList {
    * - Space: O(?).
    * @returns {boolean}
    */
-  isEmpty() {}
+  isEmpty() {
+    return this.head === null
+  }
 
   /**
    * Creates a new node with the given data and inserts it at the back of
@@ -57,7 +59,26 @@ class SinglyLinkedList {
    * @param {any} data The data to be added to the new node.
    * @returns {SinglyLinkedList} This list.
    */
-  insertAtBack(data) {}
+  insertAtBack(data) {
+    // create a node
+    const newNode = new ListNode(data)
+
+    // account for the first item
+    if (this.isEmpty()){
+        this.head = newNode
+        return this
+    }
+
+    // find the back 
+    let runner = this.head
+    while (runner.next != null){
+        runner = runner.next
+    }
+
+    // take the last/back point its "next" at the new node created
+    runner.next = newNode
+    return this
+  }
 
   /**
    * Creates a new node with the given data and inserts it at the back of
@@ -110,7 +131,10 @@ after completing it, uncomment the code.
 */
 const emptyList = new SinglyLinkedList();
 
-// const singleNodeList = new SinglyLinkedList().insertAtBackMany([1]);
+// console.log(emptyList.isEmpty())
+
+const singleNodeList = new SinglyLinkedList().insertAtBackMany([7]);
+console.log(singleNodeList)
 // const biNodeList = new SinglyLinkedList().insertAtBackMany([1, 2]);
 // const firstThreeList = new SinglyLinkedList().insertAtBackMany([1, 2, 3]);
 // const secondThreeList = new SinglyLinkedList().insertAtBackMany([4, 5, 6]);
