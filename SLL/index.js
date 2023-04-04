@@ -41,12 +41,14 @@ class SinglyLinkedList {
     this.head = null;
   }
 
+  // ************************* MONDAY *************************
+
   /**
    * Determines if this list is empty.
    * - Time: O(?).
    * - Space: O(?).
    * @returns {boolean}
-   */
+  */
   isEmpty() {
     return this.head === null
   }
@@ -58,21 +60,21 @@ class SinglyLinkedList {
    * - Space: O(?).
    * @param {any} data The data to be added to the new node.
    * @returns {SinglyLinkedList} This list.
-   */
+  */
   insertAtBack(data) {
     // create a node
     const newNode = new ListNode(data)
 
     // account for the first item
-    if (this.isEmpty()){
-        this.head = newNode
-        return this
+    if (this.isEmpty()) {
+      this.head = newNode
+      return this
     }
 
     // find the back 
     let runner = this.head
-    while (runner.next != null){
-        runner = runner.next
+    while (runner.next != null) {
+      runner = runner.next
     }
 
     // take the last/back point its "next" at the new node created
@@ -89,8 +91,12 @@ class SinglyLinkedList {
    * @param {?ListNode} runner The current node during the traversal of this list
    *    or null when the end of the list has been reached.
    * @returns {SinglyLinkedList} This list.
-   */
-  insertAtBackRecursive(data, runner = this.head) {}
+  */
+  insertAtBackRecursive(data, runner = this.head) {
+    if (this.isEmpty()) {
+      this.head = new ListNode(data);
+      return this;
+    }
 
   /**
    * Calls insertAtBack on each item of the given array.
@@ -98,7 +104,7 @@ class SinglyLinkedList {
    * - Space: O(1) constant.
    * @param {Array<any>} vals The data for each new node.
    * @returns {SinglyLinkedList} This list.
-   */
+  */
   insertAtBackMany(vals) {
     for (const item of vals) {
       this.insertAtBack(item);
@@ -106,21 +112,64 @@ class SinglyLinkedList {
     return this;
   }
 
+  // ************************* TUESDAY *************************
+  /**
+ * Creates a new node with the given data and inserts that node at the front
+ * of this list.
+ * - Time: (?).
+ * - Space: (?).
+ * @param {any} data The data for the new node.
+ * @returns {SinglyLinkedList} This list.
+ */
+  insertAtFront(data) { }
+
+  /**
+   * Removes the first node of this list.
+   * - Time: (?).
+   * - Space: (?).
+   * @returns {any} The data from the removed node.
+   */
+  removeHead() { }
+
+  // EXTRA
+  /**
+   * Calculates the average of this list.
+   * - Time: (?).
+   * - Space: (?).
+   * @returns {number|NaN} The average of the node's data.
+   */
+  average() { }
+
+
+  // ************************* UTILS *************************
+
   /**
    * Converts this list into an array containing the data of each node.
    * - Time: O(n) linear.
    * - Space: O(n).
    * @returns {Array<any>} An array of each node's data.
-   */
-  toArr() {
-    const arr = [];
-    let runner = this.head;
+  */
+  // toArr() {
+  //   const arr = [];
+  //   let runner = this.head;
 
-    while (runner) {
-      arr.push(runner.data);
-      runner = runner.next;
+  //   while (runner) {
+  //     arr.push(runner.data);
+  //     runner = runner.next;
+  //   }
+  //   return arr;
+  // }
+
+  printList() {
+    let current = this.head;
+    let list = '';
+    while (current) {
+      list += current.data + ' -> ';
+      current = current.next;
     }
-    return arr;
+    list += 'null';
+    console.log(list);
+    return this
   }
 }
 
