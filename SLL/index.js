@@ -97,6 +97,7 @@ class SinglyLinkedList {
       this.head = new ListNode(data);
       return this;
     }
+  }
 
   /**
    * Calls insertAtBack on each item of the given array.
@@ -113,7 +114,7 @@ class SinglyLinkedList {
   }
 
   // ************************* TUESDAY *************************
-  /**
+  /** 
  * Creates a new node with the given data and inserts that node at the front
  * of this list.
  * - Time: (?).
@@ -121,7 +122,12 @@ class SinglyLinkedList {
  * @param {any} data The data for the new node.
  * @returns {SinglyLinkedList} This list.
  */
-  insertAtFront(data) { }
+  insertAtFront(data) {
+    const newHead = new ListNode(data);
+    newHead.next = this.head;
+    this.head = newHead;
+    return this;
+  }
 
   /**
    * Removes the first node of this list.
@@ -129,7 +135,15 @@ class SinglyLinkedList {
    * - Space: (?).
    * @returns {any} The data from the removed node.
    */
-  removeHead() { }
+  removeHead() {
+    if (this.isEmpty()) {
+      return null;
+    }
+
+    const oldHead = this.head;
+    this.head = oldHead.next;
+    return oldHead.data;
+  }
 
   // EXTRA
   /**
@@ -138,8 +152,60 @@ class SinglyLinkedList {
    * - Space: (?).
    * @returns {number|NaN} The average of the node's data.
    */
-  average() { }
+  average() {
+    let runner = this.head;
+    let sum = 0;
+    let cnt = 0;
 
+    while (runner) {
+      cnt++;
+      sum += runner.data;
+      runner = runner.next;
+    }
+  }
+
+  // ************************* WEDNESDAY *************************
+
+  /**
+ * Removes the last node of this list.
+ * - Time: O(?).
+ * - Space: O(?).
+ * @returns {any} The data from the node that was removed.
+ */
+  removeBack() { }
+
+  /**
+   * Determines whether or not the given search value exists in this list.
+   * - Time: O(?).
+   * - Space: O(?).
+   * @param {any} val The data to search for in the nodes of this list.
+   * @returns {boolean}
+   */
+  contains(val) { }
+
+  /**
+   * Determines whether or not the given search value exists in this list.
+   * - Time: O(?).
+   * - Space: O(?).
+   * @param {any} val The data to search for in the nodes of this list.
+   * @param {?ListNode} current The current node during the traversal of this list
+   *    or null when the end of the list has been reached.
+   * @returns {boolean}
+   */
+  containsRecursive(val, current = this.head) { }
+
+  // EXTRA
+  /**
+   * Recursively finds the maximum integer data of the nodes in this list.
+   * - Time: O(?).
+   * - Space: O(?).
+   * @param {ListNode} runner The start or current node during traversal, or null
+   *    when the end of the list is reached.
+   * @param {ListNode} maxNode Keeps track of the node that contains the current
+   *    max integer as it's data.
+   * @returns {?number} The max int or null if none.
+   */
+  recursiveMax(runner = this.head, maxNode = this.head) { }
 
   // ************************* UTILS *************************
 
