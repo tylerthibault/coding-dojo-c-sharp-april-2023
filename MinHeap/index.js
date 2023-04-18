@@ -35,7 +35,9 @@ class MinHeap {
      * - Space: O(1) constant.
      * @returns {?number} Null if empty.
      */
-    top() { }
+    top() {
+        return this.heap[1]
+    }
 
     /**
      * Inserts a new number into the heap and maintains the heaps order.
@@ -46,12 +48,41 @@ class MinHeap {
      * - Space: O(1) constant.
      * @param {number} num The num to add.
      */
-    insert(num) { }
+    insert(num) {
+        this.heap.push(num)
+
+        let currentIdx = this.heap.length - 1
+        let parentIdx = Math.floor((this.heap.length - 1) / 2)
+
+        console.log(currentIdx, parentIdx)
+        while (this.heap[currentIdx] < this.heap[parentIdx]) {
+            [this.heap[currentIdx], this.heap[parentIdx]] = [this.heap[parentIdx], this.heap[currentIdx]]
+
+            // reset current to be the parent
+            currentIdx = parentIdx
+            // reset the parent to be the actual parent of the new current
+            parentIdx = Math.floor((currentIdx - 1) / 2)
+        }
+    }
+
+    /**
+   * Extracts the min num from the heap and then re-orders the heap to
+   * maintain order so the next min is ready to be extracted.
+   * 1. Save the first node to a temp var.
+   * 2. Pop last node off and set idx1 equal to the popped value.
+   * 3. Iteratively swap the old last node that is now at idx1 with it's
+   *    smallest child IF the smallest child is smaller than it.
+   * - Time: O(log n) logarithmic due to shiftDown.
+   * - Space: O(1) constant.
+   * @returns {?number} The min number or null if empty.
+   */
+    extract() { }
 
     /**
      * Logs the tree horizontally with the root on the left and the index in
      * parenthesis using reverse inorder traversal.
      */
+    
     printHorizontalTree(parentIdx = 1, spaceCnt = 0, spaceIncr = 10) {
         if (parentIdx > this.heap.length - 1) {
             return;
@@ -68,3 +99,15 @@ class MinHeap {
         this.printHorizontalTree(parentIdx * 2, spaceCnt);
     }
 }
+
+const MH = new MinHeap()
+
+MH.printHorizontalTree()
+
+const list = [5,3,2,7,8,23,2,3]
+
+list.forEach(el => {
+    console.log("*******************")
+    MH.insert(el)
+    MH.printHorizontalTree()
+});
