@@ -54,14 +54,14 @@ class MinHeap {
         let currentIdx = this.heap.length - 1
         let parentIdx = Math.floor((this.heap.length - 1) / 2)
 
-        console.log(currentIdx, parentIdx)
         while (this.heap[currentIdx] < this.heap[parentIdx]) {
+            // this.printHorizontalTree()
             [this.heap[currentIdx], this.heap[parentIdx]] = [this.heap[parentIdx], this.heap[currentIdx]]
 
             // reset current to be the parent
             currentIdx = parentIdx
             // reset the parent to be the actual parent of the new current
-            parentIdx = Math.floor((currentIdx - 1) / 2)
+            parentIdx = Math.floor((currentIdx) / 2)
         }
     }
 
@@ -76,13 +76,94 @@ class MinHeap {
    * - Space: O(1) constant.
    * @returns {?number} The min number or null if empty.
    */
-    extract() { }
+    extract() {
+        // nothing to remove
+        if (this.heap.length === 1) {
+            return null;
+        }
+
+        const heap = this.heap;
+        const min = heap[1];
+        const lastNode = heap.pop();
+
+        // last item is being removed, no more work required
+        if (heap.length === 1) {
+            return min;
+        }
+
+        // last node is overwriting the idx 1 to "remove" idx 1
+        heap[1] = lastNode;
+        // since we put the lastNode at the start, it needs to be swapped down to it's correct position to restore the order
+        this.shiftDown();
+        return min;
+    }
+
+    // AKA: siftDown, heapifyDown, bubbleDown, sinkDown to restore order after extracting min
+    shiftDown() {
+        let idxOfNodeToShiftDown = 1;
+        let idxOfLeftChild = this.idxOfLeftChild(idxOfNodeToShiftDown);
+
+        // while there is at least 1 child
+        while (idxOfLeftChild < this.heap.length) {
+            const idxOfRightChild = this.idxOfRightChild(idxOfNodeToShiftDown);
+            let idxOfSmallestChild = idxOfLeftChild;
+            const isRightChildInBounds = idxOfRightChild < this.heap.length;
+
+            // Don't compare right child if it's out of bounds.
+            // less than or greater than undefined has weird behavior (always false).
+            const isRightChildSmaller =
+                isRightChildInBounds &&
+                this.heap[idxOfRightChild] < this.heap[idxOfLeftChild];
+
+            if (isRightChildSmaller) {
+                idxOfSmallestChild = idxOfRightChild;
+            }
+
+            const isParentSmallerOrEqual =
+                this.heap[idxOfNodeToShiftDown] <= this.heap[idxOfSmallestChild];
+
+            // Parent is supposed to be smaller, so ordering is complete.
+            if (isParentSmallerOrEqual) {
+                break;
+            }
+
+            this.swap(idxOfNodeToShiftDown, idxOfSmallestChild);
+
+            // after swapping the node is now at the idxOfSmallestChild.
+            idxOfNodeToShiftDown = idxOfSmallestChild;
+            idxOfLeftChild = this.idxOfLeftChild(idxOfNodeToShiftDown);
+        }
+    }
+
+    /**
+     * @param {number} i
+     */
+    idxOfLeftChild(i) {
+        return i * 2;
+    }
+
+    /**
+     * @param {number} i
+     */
+    idxOfRightChild(i) {
+        return i * 2 + 1;
+    }
+
+    /**
+   * Swaps two nodes.
+   * @param {number} i
+   * @param {number} j
+   */
+    swap(i, j) {
+        [this.heap[i], this.heap[j]] = [this.heap[j], this.heap[i]];
+    }
+
 
     /**
      * Logs the tree horizontally with the root on the left and the index in
      * parenthesis using reverse inorder traversal.
      */
-    
+
     printHorizontalTree(parentIdx = 1, spaceCnt = 0, spaceIncr = 10) {
         if (parentIdx > this.heap.length - 1) {
             return;
@@ -104,10 +185,14 @@ const MH = new MinHeap()
 
 MH.printHorizontalTree()
 
-const list = [5,3,2,7,8,23,2,3]
+const list = [5, 3, 2, 7, 8, 23, 2, 3]
 
 list.forEach(el => {
-    console.log("*******************")
     MH.insert(el)
-    MH.printHorizontalTree()
 });
+
+MH.printHorizontalTree()
+console.log("******************")
+MH.extract()
+console.log("******************")
+MH.printHorizontalTree()
