@@ -3,9 +3,13 @@ TODO: Create the DLLNode class and implement the DoublyLinkedList constructor
 and the empty methods below the constructor.
 */
 class DLLNode {
-    
-    constructor() {
+
+    constructor(data) {
         // TODO: implement the constructor.
+        this.data =  data
+
+        this.prev = null
+        this.next = null
     }
 }
 /**
@@ -20,6 +24,8 @@ class DoublyLinkedList {
      */
     constructor() {
         // TODO: implement the constructor.
+        this.head = null
+        this.tail = null
     }
 
     /**
