@@ -404,7 +404,24 @@ class SinglyLinkedList {
    * - Space: (?).
    * @returns {boolean} Whether the list has a loop or not.
    */
-  hasLoop() { }
+  hasLoop() {
+    if (!this.head){
+      return false
+    }
+
+    let runner = this.head
+    let fasterRunner = this.head
+
+    while (fasterRunner && fasterRunner.next) {
+      runner = runner.next
+      fasterRunner = fasterRunner.next.next
+
+      if (runner === fasterRunner) {
+        return true
+      }
+    }
+    return false
+  }
 
   /**
    * Removes all the nodes that have a negative integer as their data.
@@ -412,7 +429,26 @@ class SinglyLinkedList {
    * - Space: (?).
    * @returns {SinglyLinkedList} This list after the negatives are removed.
    */
-  removeNegatives() { }
+  removeNegatives() {
+    if (this.isEmpty()) return this
+
+    let runner = this.head
+
+    while (runner && runner.data < 0) {
+      runner = runner.next
+    }
+
+    this.head = runner
+
+    while (runner && runner.next) {
+      if (runner.next.data > -1) {
+        runner = runner.next
+      } else {
+        runner.next = runner.next.next
+      }
+    }
+    return this
+  }
 
   // ************************* UTILS *************************
 
@@ -465,8 +501,6 @@ const unorderedList = new SinglyLinkedList().insertAtBackMany([
 ]);
 // unorderedList.printList().removeBack().printList()
 
-console.log(unorderedList.contains(99))
-
 /* node 4 connects to node 1, back to head */
 // const perfectLoopList = new SinglyLinkedList().insertAtBackMany([1, 2, 3, 4]);
 // perfectLoopList.head.next.next.next = perfectLoopList.head;
@@ -481,3 +515,10 @@ console.log(unorderedList.contains(99))
 
 // Print your list like so:
 // console.log(firstThreeList.toArr());
+
+// var second = unorderedList.head.next
+// var last = unorderedList.head.next.next.next.next.next.next.next
+// last.next = second
+
+// console.log(unorderedList.hasLoop())
+unorderedList.removeNegatives().printList()
